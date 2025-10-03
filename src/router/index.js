@@ -31,13 +31,26 @@ const routes = [
         name: 'Barang',
         component: () => import('@/views/admin/Barang.vue'),
       },
-      {
-        path: '/admin/Kategori',
-        name: 'Typography',
-        component: () => import('@/views/admin/Kategori.vue'),
-      },
+{
+  path: '/admin/Kategori',
+  name: 'KategoriList',
+  component: () => import('@/views/admin/KategoriList.vue')
+},
+{
+  path: '/admin/KategoriAdd',
+  name: 'KategoriAdd',
+  component: () => import('@/views/admin/KategoriAdd.vue')
+}
     ],
   },
+{
+  path: '/admin/KategoriEdit/:id',
+  name: 'KategoriEdit',
+  component: () => import('@/views/admin/KategoriEdit.vue'),
+  // props: true
+}
+
+
 ]
 
 const router = createRouter({
