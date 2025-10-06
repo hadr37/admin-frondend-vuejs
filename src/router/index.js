@@ -21,32 +21,39 @@ const routes = [
             /* webpackChunkName: "dashboard" */ '@/views/dashboard/Dashboard.vue'
           ),
       },
-      {
-        path: '/admin',
-        name: 'admin',
-        redirect: '/admin/Barang',
-      },
-      {
-        path: '/admin/Barang',
-        name: 'Barang',
-        component: () => import('@/views/admin/Barang.vue'),
-      },
-{
-  path: '/admin/Kategori',
-  name: 'KategoriList',
-  component: () => import('@/views/admin/KategoriList.vue')
+ {
+  path: "/Barang/barang",
+  name: "BarangList",
+  component: () => import("@/views/Barang/BarangList.vue"),
 },
 {
-  path: '/admin/KategoriAdd',
+  path: "/Barang/barangadd",
+  name: "BarangAdd",
+  component: () => import("@/views/Barang/BarangAdd.vue"),
+},
+{
+  path: "/Barang/barang/edit/:id",
+  name: "BarangEdit",
+  component: () => import("@/views/Barang/BarangEdit.vue"),
+  props: true,
+},
+
+{
+  path: '/Kategori/Kategori',
+  name: 'KategoriList',
+  component: () => import('@/views/Kategori/KategoriList.vue')
+},
+{
+  path: '/Kategori/KategoriAdd',
   name: 'KategoriAdd',
-  component: () => import('@/views/admin/KategoriAdd.vue')
+  component: () => import('@/views/Kategori/KategoriAdd.vue')
 }
     ],
   },
 {
-  path: '/admin/KategoriEdit/:id',
+  path: '/Kategori/KategoriEdit/:id',
   name: 'KategoriEdit',
-  component: () => import('@/views/admin/KategoriEdit.vue'),
+  component: () => import('@/views/Kategori/KategoriEdit.vue'),
   // props: true
 }
 

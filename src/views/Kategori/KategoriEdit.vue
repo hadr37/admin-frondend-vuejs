@@ -1,4 +1,3 @@
-
 <template>
   <div class="flex">
     <!-- Sidebar -->
@@ -17,30 +16,32 @@
 
         <form
           @submit.prevent="updateCategory"
-          class="space-y-4 max-w-md bg-white p-6 rounded shadow"
+          class="space-y-4 max-w-md bg-white p-6 rounded-xl shadow-md"
         >
+          <!-- Nama Kategori -->
           <div>
-            <label class="block mb-1 font-medium">Nama Kategori</label>
+            <label class="block text-sm font-medium text-gray-700">Nama Kategori</label>
             <input
               v-model="name"
               type="text"
-              required
               placeholder="Masukkan nama kategori"
-              class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-gray-500 focus:outline-none"
+              class="form-control"
+              required
             />
           </div>
 
-          <div class="flex gap-2">
+          <!-- Tombol -->
+          <div class="flex gap-2 pt-4">
             <button
               type="button"
-              @click="router.push('/admin/Kategori')"
-              class="bg-gray-400 text-white px-4 py-2 rounded text-sm shadow hover:bg-gray-500"
+              @click="router.push('/Kategori/Kategori')"
+              class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded text-sm shadow"
             >
               Batal
             </button>
             <button
               type="submit"
-              class="bg-black text-white px-4 py-2 rounded text-sm shadow hover:bg-gray-800"
+              class="bg-black hover:bg-gray-900 text-white px-4 py-2 rounded text-sm shadow"
             >
               Update
             </button>
@@ -50,7 +51,6 @@
     </div>
   </div>
 </template>
-
 
 <script setup>
 import { ref, onMounted } from "vue"
@@ -78,7 +78,7 @@ const updateCategory = async () => {
   try {
     await axios.put(`${API_URL}/${route.params.id}`, { name: name.value })
     alert("✅ Kategori berhasil diperbarui")
-    router.push("/admin/Kategori")
+    router.push("/Kategori/Kategori")
   } catch (err) {
     console.error(err)
     alert("❌ Gagal memperbarui kategori")
@@ -89,3 +89,19 @@ onMounted(() => {
   getCategory()
 })
 </script>
+
+<style scoped>
+.form-control {
+  width: 100%;
+  border: 1px solid #d1d5db; /* abu-abu */
+  border-radius: 0.375rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  outline: none;
+  transition: 0.2s;
+}
+.form-control:focus {
+  border-color: black;
+  box-shadow: 0 0 0 1px black;
+}
+</style>

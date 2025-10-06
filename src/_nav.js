@@ -16,13 +16,13 @@ export default [
   {
     component: 'CNavItem',
     name: 'Barang',
-    to: '/admin/Barang',
+    to: '/Barang/Barang',
     icon: 'cil-drop',
   },
   {
     component: 'CNavItem',
     name: 'Kategori',
-    to: '/admin/Kategori',
+    to: '/Kategori/Kategori',
     icon: 'cil-pencil',
   },
  

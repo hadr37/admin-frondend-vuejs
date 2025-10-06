@@ -11,7 +11,7 @@ const saveCategory = async () => {
   try {
     await axios.post(API_URL, { name: name.value })
     alert("✅ Kategori berhasil ditambahkan")
-    router.push("/admin/Kategori")
+    router.push("/Kategori/Kategori")
   } catch (error) {
     console.error(error)
     alert("❌ Gagal menambah kategori")
@@ -27,21 +27,21 @@ const saveCategory = async () => {
 
     <form @submit.prevent="saveCategory" class="space-y-4 max-w-md text-gray-800">
       <div>
-        <label class="block mb-1 font-medium">Nama Kategori</label>
+        <label class="block text-sm font-medium text-gray-700">Nama Kategori</label>
         <input
           v-model="name"
           type="text"
-          required
           placeholder="Masukkan nama kategori"
-          class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-gray-500 focus:outline-none"
+          class="form-control"
+          required
         />
       </div>
 
       <div class="flex gap-2">
         <button
           type="button"
-          @click="router.push('/admin/Kategori')"
-          class="bg-black text-white px-4 py-2 rounded text-sm shadow hover:bg-gray-800"
+          @click="router.push('/Kategori/Kategori')"
+          class="bg-gray-200 text-gray-800 px-4 py-2 rounded text-sm shadow hover:bg-gray-300"
         >
           Batal
         </button>
@@ -55,3 +55,19 @@ const saveCategory = async () => {
     </form>
   </div>
 </template>
+
+<style scoped>
+.form-control {
+  width: 100%;
+  border: 1px solid #d1d5db; /* abu-abu */
+  border-radius: 0.375rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  outline: none;
+  transition: 0.2s;
+}
+.form-control:focus {
+  border-color: black;
+  box-shadow: 0 0 0 1px black;
+}
+</style>

@@ -39,7 +39,7 @@ onMounted(() => {
         <i class="fas fa-list mr-2"></i> Daftar Kategori
       </h3>
       <button
-        @click="router.push('/admin/KategoriAdd')"
+        @click="router.push('/Kategori/KategoriAdd')"
         class="bg-black text-white px-4 py-2 rounded shadow hover:bg-gray-800 text-sm"
       >
         <i class="fas fa-plus"></i> Tambah
@@ -66,7 +66,7 @@ onMounted(() => {
           <td class="px-4 py-2 text-center">
             <div class="flex justify-center gap-2">
 <button
-  @click="router.push(`/admin/KategoriEdit/${cat.id}`)"
+  @click="router.push(`/Kategori/KategoriEdit/${cat.id}`)"
   class="bg-black text-white px-3 py-1 rounded mr-2 hover:bg-gray-800"
 >
   Edit
