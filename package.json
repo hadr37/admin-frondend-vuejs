@@ -25,6 +25,7 @@
     "@coreui/utils": "^2.0.2",
     "@coreui/vue": "^5.5.0",
     "@coreui/vue-chartjs": "^3.0.0",
+    "@fortawesome/fontawesome-free": "^7.1.0",
     "@popperjs/core": "^2.11.8",
     "axios": "^1.12.2",
     "chart.js": "^4.5.0",

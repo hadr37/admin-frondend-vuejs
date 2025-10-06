@@ -1,9 +1,11 @@
 <script setup>
-import { ref, onMounted } from "vue"
+import { ref, onMounted, watch } from "vue"
 import axios from "axios"
 import { useRouter } from "vue-router"
 
 const categories = ref([])
+const allCategories = ref([]) // simpan semua data asli
+const searchQuery = ref("")
 const router = useRouter()
 const API_URL = "http://localhost:8000/api/categories"
 
@@ -11,6 +13,7 @@ const getCategories = async () => {
   try {
     let res = await axios.get(API_URL)
     categories.value = res.data
+    allCategories.value = res.data
   } catch (error) {
     console.error(error)
   }
@@ -26,6 +29,23 @@ const deleteCategory = async (id) => {
   }
 }
 
+const searchCategory = () => {
+  if (searchQuery.value.trim() === "") {
+    categories.value = allCategories.value
+  } else {
+    categories.value = allCategories.value.filter((cat) =>
+      cat.name.toLowerCase().includes(searchQuery.value.toLowerCase())
+    )
+  }
+}
+
+// auto reset kalau input dihapus
+watch(searchQuery, (val) => {
+  if (val === "") {
+    categories.value = allCategories.value
+  }
+})
+
 onMounted(() => {
   getCategories()
 })
@@ -38,12 +58,31 @@ onMounted(() => {
       <h3 class="text-xl font-bold text-gray-800">
         <i class="fas fa-list mr-2"></i> Daftar Kategori
       </h3>
-      <button
-        @click="router.push('/Kategori/KategoriAdd')"
-        class="bg-black text-white px-4 py-2 rounded shadow hover:bg-gray-800 text-sm"
-      >
-        <i class="fas fa-plus"></i> Tambah
-      </button>
+      <div class="flex gap-2">
+        <!-- Search Box -->
+        <div class="relative">
+          <input
+            v-model="searchQuery"
+            type="text"
+            placeholder="Cari kategori..."
+            class="border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gray-400"
+          />
+          <button
+            @click="searchCategory"
+            class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-600 hover:text-black"
+          >
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+
+        <!-- Tombol Tambah -->
+        <button
+          @click="router.push('/Kategori/KategoriAdd')"
+          class="bg-black text-white px-4 py-2 rounded shadow hover:bg-gray-800 text-sm"
+        >
+          <i class="fas fa-plus"></i> Tambah
+        </button>
+      </div>
     </div>
 
     <!-- Tabel -->
@@ -65,13 +104,12 @@ onMounted(() => {
           <td class="px-4 py-2">{{ cat.name }}</td>
           <td class="px-4 py-2 text-center">
             <div class="flex justify-center gap-2">
-<button
-  @click="router.push(`/Kategori/KategoriEdit/${cat.id}`)"
-  class="bg-black text-white px-3 py-1 rounded mr-2 hover:bg-gray-800"
->
-  Edit
-</button>
-
+              <button
+                @click="router.push(`/Kategori/KategoriEdit/${cat.id}`)"
+                class="bg-black text-white px-3 py-1 rounded mr-2 hover:bg-gray-800"
+              >
+                Edit
+              </button>
               <button
                 @click="deleteCategory(cat.id)"
                 class="bg-black text-white px-3 py-1 rounded text-xs shadow hover:bg-gray-800"

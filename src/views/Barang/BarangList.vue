@@ -13,6 +13,7 @@ const CAT_URL = "http://localhost:8000/api/categories"
 // Pencarian & filter
 const searchQuery = ref("")
 const selectedCategory = ref("")
+const searchInput = ref("") // input untuk box
 
 // ambil barang
 const getBarang = async () => {
@@ -45,11 +46,20 @@ const deleteBarang = async (id) => {
   }
 }
 
+// fungsi pencarian saat klik tombol
+const doSearch = () => {
+  searchQuery.value = searchInput.value
+}
+
 // computed filtered list
 const filteredBarang = computed(() => {
   return barang.value.filter((b) => {
-    const matchName = b.nama_barang.toLowerCase().includes(searchQuery.value.toLowerCase())
-    const matchCategory = selectedCategory.value ? b.kategori?.id === selectedCategory.value : true
+    const matchName = b.nama_barang
+      .toLowerCase()
+      .includes(searchQuery.value.toLowerCase())
+    const matchCategory = selectedCategory.value
+      ? b.kategori?.id === selectedCategory.value
+      : true
     return matchName && matchCategory
   })
 })
@@ -76,22 +86,39 @@ onMounted(() => {
         </button>
       </div>
 
-      <!-- Filter & Pencarian (2 kolom) -->
-      <div class="flex gap-4 mb-4">
-        <input
-          v-model="searchQuery"
-          type="text"
-          placeholder="Cari nama barang..."
-          class="form-control w-1/2"
-        />
+      <!-- Filter & Pencarian pakai tabel -->
+      <table class="w-full mb-4 border-collapse">
+        <tr>
+        <!-- Search Box -->
+        <div class="relative">
+          <input
+            v-model="searchQuery"
+            type="text"
+            placeholder="Cari barang..."
+            class="border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gray-400"
+          />
+          <button
+            @click="searchCategory"
+            class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-600 hover:text-black"
+          >
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
 
-        <select v-model="selectedCategory" class="form-control w-1/2">
-          <option value="">Semua Kategori</option>
-          <option v-for="c in categories" :key="c.id" :value="c.id">{{ c.name }}</option>
-        </select>
-      </div>
 
-      <!-- Tabel -->
+          <!-- Kolom kanan: dropdown kategori -->
+          <td class="w-1/2 align-top pl-2">
+            <select v-model="selectedCategory" class="form-control w-full">
+              <option value="">Semua Kategori</option>
+              <option v-for="c in categories" :key="c.id" :value="c.id">
+                {{ c.name }}
+              </option>
+            </select>
+          </td>
+        </tr>
+      </table>
+
+      <!-- Tabel Barang -->
       <table class="w-full border border-gray-300 text-sm text-gray-800">
         <thead class="bg-gray-200 text-gray-900">
           <tr>
@@ -118,7 +145,11 @@ onMounted(() => {
             <td class="px-4 py-2">Rp {{ b.harga }}</td>
             <td class="px-4 py-2">{{ b.stok }}</td>
             <td class="px-4 py-2">
-              <img v-if="b.gambar" :src="`http://localhost:8000/storage/${b.gambar}`" class="custom-small-img" />
+              <img
+                v-if="b.gambar"
+                :src="`http://localhost:8000/storage/${b.gambar}`"
+                class="custom-small-img"
+              />
             </td>
             <td class="px-4 py-2 text-center">
               <button
