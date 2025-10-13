@@ -5,14 +5,12 @@ import { useRouter } from "vue-router"
 
 const barang = ref([])
 const categories = ref([])
+const searchQuery = ref("")
+const selectedCategory = ref("")
 const router = useRouter()
 
 const API_URL = "http://localhost:8000/api/barang"
 const CAT_URL = "http://localhost:8000/api/categories"
-
-// Pencarian & filter
-const searchQuery = ref("")
-const selectedCategory = ref("")
 
 // Ambil data barang
 const getBarang = async () => {
@@ -52,7 +50,7 @@ const filteredBarang = computed(() => {
       .toLowerCase()
       .includes(searchQuery.value.toLowerCase())
     const matchCategory = selectedCategory.value
-      ? b.kategori?.id === selectedCategory.value
+      ? b.kategori_id == selectedCategory.value
       : true
     return matchName && matchCategory
   })
@@ -65,116 +63,223 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="flex">
-    <main class="p-6 w-full">
-      <!-- Header -->
-      <div class="flex justify-between items-center mb-4">
-        <h3 class="text-xl font-bold text-gray-800">
-          <i class="fas fa-box mr-2"></i> Daftar Barang
-        </h3>
-        <button
-          @click="router.push('/Barang/barangadd')"
-          class="bg-black text-white px-4 py-2 rounded shadow hover:bg-gray-800 text-sm"
-        >
-          <i class="fas fa-plus"></i> Tambah Barang
-        </button>
-      </div>
+  <div class="main-content">
+    <!-- Header -->
+    <div class="header-section">
+      <h3><i class="fas fa-box mr-2"></i> Daftar Barang</h3>
 
-      <!-- Filter & Pencarian (versi Flexbox, tanpa <table>) -->
-      <div class="flex mb-4 gap-4">
-        <!-- Kolom kiri: Search -->
-        <div class="flex items-center w-1/2">
+      <div class="actions">
+        <button @click="router.push('/Barang/barangadd')" class="btn btn-dark">
+          <i class="fas fa-plus"></i> Tambah
+        </button>
+
+        <div class="search-box">
           <input
             v-model="searchQuery"
             type="text"
             placeholder="Cari barang..."
-            class="border border-gray-300 rounded-l px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gray-400 flex-grow"
           />
-          <button
-            class="bg-black text-white px-4 py-2 rounded-r hover:bg-gray-800"
-          >
+          <button>
             <i class="fas fa-search"></i>
           </button>
         </div>
 
-        <!-- Kolom kanan: Dropdown kategori -->
-        <div class="w-1/2">
-          <select
-            v-model="selectedCategory"
-            class="border border-gray-300 rounded px-3 py-2 text-sm w-full focus:outline-none focus:ring-2 focus:ring-gray-400"
-          >
-            <option value="">Semua Kategori</option>
-            <option v-for="c in categories" :key="c.id" :value="c.id">
-              {{ c.name }}
-            </option>
-          </select>
-        </div>
+        <select v-model="selectedCategory" class="filter-select">
+          <option value="">Semua Kategori</option>
+          <option v-for="c in categories" :key="c.id" :value="c.id">
+            {{ c.name }}
+          </option>
+        </select>
       </div>
+    </div>
 
-      <!-- Tabel Barang -->
-      <table class="w-full border border-gray-300 text-sm text-gray-800">
-        <thead class="bg-gray-200 text-gray-900">
+    <!-- Tabel Barang -->
+    <div class="table-container">
+      <table>
+        <thead>
           <tr>
-            <th class="px-4 py-2">Kode</th>
-            <th class="px-4 py-2">Nama</th>
-            <th class="px-4 py-2">Kategori</th>
-            <th class="px-4 py-2">Deskripsi</th>
-            <th class="px-4 py-2">Harga</th>
-            <th class="px-4 py-2">Stok</th>
-            <th class="px-4 py-2">Gambar</th>
-            <th class="px-4 py-2 text-center">Aksi</th>
+            <th>Kode</th>
+            <th>Nama</th>
+            <th>Kategori</th>
+            <th>Deskripsi</th>
+            <th>Harga</th>
+            <th>Stok</th>
+            <th>Gambar</th>
+            <th class="text-center">Aksi</th>
           </tr>
         </thead>
         <tbody>
           <tr
             v-for="b in filteredBarang"
             :key="b.id"
-            class="border-b hover:bg-gray-100"
           >
-            <td class="px-4 py-2">{{ b.kode_barang }}</td>
-            <td class="px-4 py-2">{{ b.nama_barang }}</td>
-            <td class="px-4 py-2">{{ b.kategori?.name }}</td>
-            <td class="px-4 py-2 w-64 truncate">{{ b.deskripsi }}</td>
-            <td class="px-4 py-2">Rp {{ b.harga }}</td>
-            <td class="px-4 py-2">{{ b.stok }}</td>
-            <td class="px-4 py-2">
+            <td>{{ b.kode_barang }}</td>
+            <td>{{ b.nama_barang }}</td>
+            <td>{{ b.kategori?.name }}</td>
+            <td class="truncate-2">{{ b.deskripsi }}</td>
+            <td>Rp {{ b.harga }}</td>
+            <td>{{ b.stok }}</td>
+            <td>
               <img
                 v-if="b.gambar"
                 :src="`http://localhost:8000/storage/${b.gambar}`"
-                class="custom-small-img"
+                class="gambar"
               />
             </td>
-            <td class="px-4 py-2 text-center">
+            <td class="text-center">
               <button
                 @click="router.push(`/Barang/Barang/Edit/${b.id}`)"
-                class="bg-black text-white px-3 py-1 rounded text-xs hover:bg-gray-800 mr-2"
+                class="btn btn-sm btn-dark me-2"
               >
                 Edit
               </button>
               <button
                 @click="deleteBarang(b.id)"
-                class="bg-black text-white px-3 py-1 rounded text-xs hover:bg-gray-800"
+                class="btn btn-sm btn-danger"
               >
                 Hapus
               </button>
             </td>
           </tr>
+
           <tr v-if="filteredBarang.length === 0">
-            <td colspan="8" class="px-4 py-6 text-center text-gray-500">
+            <td colspan="8" class="text-center text-gray">
               Tidak ada barang 🙏
             </td>
           </tr>
         </tbody>
       </table>
-    </main>
+    </div>
   </div>
 </template>
 
 <style scoped>
-.custom-small-img {
-  height: 90px;
+.main-content {
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  min-height: 100vh;
+}
+
+.header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.header-section h3 {
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 6px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  border: none;
+  font-size: 14px;
+}
+
+.btn-dark {
+  background-color: #000;
+  color: #fff;
+}
+
+.btn-dark:hover {
+  background-color: #333;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  color: white;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+}
+
+.filter-select {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 6px 10px;
+  font-size: 14px;
+  outline: none;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.search-box input {
+  border: none;
+  padding: 6px 10px;
+  outline: none;
+  font-size: 14px;
+}
+
+.search-box button {
+  background: none;
+  border: none;
+  padding: 6px 8px;
+  cursor: pointer;
+  color: #666;
+}
+
+.table-container {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+thead {
+  background: #f5f5f5;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  vertical-align: middle;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-gray {
+  color: #888;
+}
+
+.gambar {
+  height: 70px;
   width: auto;
-  border-radius: 0.25rem;
-  border: 1px solid #e5e7eb;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+}
+
+.truncate-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 </style>
