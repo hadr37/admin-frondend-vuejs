@@ -13,9 +13,8 @@ const CAT_URL = "http://localhost:8000/api/categories"
 // Pencarian & filter
 const searchQuery = ref("")
 const selectedCategory = ref("")
-const searchInput = ref("") // input untuk box
 
-// ambil barang
+// Ambil data barang
 const getBarang = async () => {
   try {
     const res = await axios.get(API_URL)
@@ -25,7 +24,7 @@ const getBarang = async () => {
   }
 }
 
-// ambil kategori
+// Ambil kategori
 const getCategories = async () => {
   try {
     const res = await axios.get(CAT_URL)
@@ -35,7 +34,7 @@ const getCategories = async () => {
   }
 }
 
-// hapus barang
+// Hapus barang
 const deleteBarang = async (id) => {
   if (!confirm("Yakin hapus barang ini?")) return
   try {
@@ -46,12 +45,7 @@ const deleteBarang = async (id) => {
   }
 }
 
-// fungsi pencarian saat klik tombol
-const doSearch = () => {
-  searchQuery.value = searchInput.value
-}
-
-// computed filtered list
+// Filter barang berdasarkan pencarian & kategori
 const filteredBarang = computed(() => {
   return barang.value.filter((b) => {
     const matchName = b.nama_barang
@@ -86,37 +80,36 @@ onMounted(() => {
         </button>
       </div>
 
-      <!-- Filter & Pencarian pakai tabel -->
-      <table class="w-full mb-4 border-collapse">
-        <tr>
-        <!-- Search Box -->
-        <div class="relative">
+      <!-- Filter & Pencarian (versi Flexbox, tanpa <table>) -->
+      <div class="flex mb-4 gap-4">
+        <!-- Kolom kiri: Search -->
+        <div class="flex items-center w-1/2">
           <input
             v-model="searchQuery"
             type="text"
             placeholder="Cari barang..."
-            class="border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gray-400"
+            class="border border-gray-300 rounded-l px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gray-400 flex-grow"
           />
           <button
-            @click="searchCategory"
-            class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-600 hover:text-black"
+            class="bg-black text-white px-4 py-2 rounded-r hover:bg-gray-800"
           >
             <i class="fas fa-search"></i>
           </button>
         </div>
 
-
-          <!-- Kolom kanan: dropdown kategori -->
-          <td class="w-1/2 align-top pl-2">
-            <select v-model="selectedCategory" class="form-control w-full">
-              <option value="">Semua Kategori</option>
-              <option v-for="c in categories" :key="c.id" :value="c.id">
-                {{ c.name }}
-              </option>
-            </select>
-          </td>
-        </tr>
-      </table>
+        <!-- Kolom kanan: Dropdown kategori -->
+        <div class="w-1/2">
+          <select
+            v-model="selectedCategory"
+            class="border border-gray-300 rounded px-3 py-2 text-sm w-full focus:outline-none focus:ring-2 focus:ring-gray-400"
+          >
+            <option value="">Semua Kategori</option>
+            <option v-for="c in categories" :key="c.id" :value="c.id">
+              {{ c.name }}
+            </option>
+          </select>
+        </div>
+      </div>
 
       <!-- Tabel Barang -->
       <table class="w-full border border-gray-300 text-sm text-gray-800">
@@ -183,18 +176,5 @@ onMounted(() => {
   width: auto;
   border-radius: 0.25rem;
   border: 1px solid #e5e7eb;
-}
-
-.form-control {
-  width: 100%;
-  border: 1px solid #d1d5db;
-  border-radius: 0.375rem;
-  padding: 0.5rem 0.75rem;
-  font-size: 0.875rem;
-  outline: none;
-}
-.form-control:focus {
-  border-color: black;
-  box-shadow: 0 0 0 1px black;
 }
 </style>

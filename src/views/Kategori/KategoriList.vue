@@ -54,11 +54,21 @@ onMounted(() => {
 <template>
   <div class="p-6 min-h-screen">
     <!-- Header -->
-    <div class="flex justify-between items-center mb-4">
+    <div class="flex justify-between items-center mb-4 flex-wrap gap-3">
       <h3 class="text-xl font-bold text-gray-800">
         <i class="fas fa-list mr-2"></i> Daftar Kategori
       </h3>
-      <div class="flex gap-2">
+
+      <!-- Bagian kanan (Tombol + Search) -->
+      <div class="flex gap-3 items-center flex-wrap">
+        <!-- Tombol Tambah -->
+        <button
+          @click="router.push('/Kategori/KategoriAdd')"
+          class="bg-black text-white px-4 py-2 rounded shadow hover:bg-gray-800 text-sm"
+        >
+          <i class="fas fa-plus"></i> Tambah
+        </button>
+
         <!-- Search Box -->
         <div class="relative">
           <input
@@ -74,14 +84,6 @@ onMounted(() => {
             <i class="fas fa-search"></i>
           </button>
         </div>
-
-        <!-- Tombol Tambah -->
-        <button
-          @click="router.push('/Kategori/KategoriAdd')"
-          class="bg-black text-white px-4 py-2 rounded shadow hover:bg-gray-800 text-sm"
-        >
-          <i class="fas fa-plus"></i> Tambah
-        </button>
       </div>
     </div>
 
@@ -119,6 +121,7 @@ onMounted(() => {
             </div>
           </td>
         </tr>
+
         <tr v-if="categories.length === 0">
           <td colspan="3" class="px-4 py-6 text-center text-gray-500">
             Belum ada kategori 🙏
