@@ -1,13 +1,16 @@
+
 <script setup>
 import { ref, onMounted } from "vue"
 import axios from "axios"
 import { useRouter } from "vue-router"
 
 const router = useRouter()
+
+// URL API
 const API_URL = "http://localhost:8000/api/barang"
 const CAT_URL = "http://localhost:8000/api/categories"
 
-// state form
+// State form
 const kode_barang = ref("")
 const nama_barang = ref("")
 const kategori_id = ref("")
@@ -17,33 +20,34 @@ const harga = ref(0)
 const gambar = ref(null)
 const categories = ref([])
 
-// ambil kategori dari backend
+// Ambil kategori dari backend
 const getCategories = async () => {
   try {
     let res = await axios.get(CAT_URL)
     categories.value = res.data
+    console.log("✅ Data kategori:", res.data)
   } catch (err) {
-    console.error("Gagal load kategori:", err)
+    console.error("❌ Gagal load kategori:", err)
   }
 }
 
-// handler upload file
+// Upload file handler
 const handleFileUpload = (e) => {
   if (e.target.files && e.target.files[0]) {
     gambar.value = e.target.files[0]
   }
 }
 
-// simpan barang
+// Simpan barang ke backend
 const addBarang = async () => {
   try {
-    let formData = new FormData()
+    const formData = new FormData()
     formData.append("kode_barang", kode_barang.value)
     formData.append("nama_barang", nama_barang.value)
-    formData.append("kategori_id", kategori_id.value)
+    formData.append("kategori_id", parseInt(kategori_id.value)) 
     formData.append("deskripsi", deskripsi.value)
-    formData.append("stok", stok.value)
-    formData.append("harga", harga.value)
+    formData.append("stok", parseInt(stok.value))
+    formData.append("harga", parseInt(harga.value))
 
     if (gambar.value) {
       formData.append("gambar", gambar.value)
@@ -53,14 +57,22 @@ const addBarang = async () => {
       headers: { "Content-Type": "multipart/form-data" },
     })
 
-    alert("✅ Barang berhasil ditambahkan")
-    router.push("/Barang/barang") // pastikan route ini benar
+    alert("✅ Barang berhasil ditambahkan!")
+    router.push("/Barang/barang") 
   } catch (error) {
-    console.error("❌ Error saat tambah barang:", error)
-    alert("❌ Gagal menambah barang")
+    if (error.response) {
+      console.error("⚠️ Laravel validation errors:", error.response.data.errors)
+      alert(
+        "❌ Gagal menambah barang:\n" +
+          JSON.stringify(error.response.data.errors, null, 2)
+      )
+    } else {
+      console.error("❌ Error:", error)
+    }
   }
 }
 
+// Load kategori saat halaman dibuka
 onMounted(() => {
   getCategories()
 })
@@ -140,7 +152,7 @@ onMounted(() => {
 <style scoped>
 .form-control {
   width: 100%;
-  border: 1px solid #d1d5db; /* abu-abu */
+  border: 1px solid #d1d5db; 
   border-radius: 0.375rem;
   padding: 0.5rem 0.75rem;
   font-size: 0.875rem;

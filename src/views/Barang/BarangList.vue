@@ -116,13 +116,13 @@ onMounted(() => {
             <td>{{ b.kode_barang }}</td>
             <td>{{ b.nama_barang }}</td>
             <td>{{ b.kategori?.name }}</td>
-            <td class="truncate-2">{{ b.deskripsi }}</td>
+            <td>{{ b.deskripsi }}</td>
             <td>Rp {{ b.harga }}</td>
             <td>{{ b.stok }}</td>
             <td>
               <img
                 v-if="b.gambar"
-                :src="`http://localhost:8000/storage/${b.gambar}`"
+                :src="`http://localhost:8000/storage/${b.gambar }`"
                 class="gambar"
               />
             </td>
