@@ -1,0 +1,178 @@
+<script setup>
+import { ref } from "vue"
+import axios from "axios"
+import { useRouter } from "vue-router"
+
+const router = useRouter()
+
+const form = ref({
+  judul: "",
+  slug: "",
+  isi: "",
+  cover: null,
+})
+
+const API_URL = "http://localhost:8000/api/artikel"
+
+// Otomatis buat slug dari judul
+const generateSlug = () => {
+  form.value.slug = form.value.judul
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, "")
+    .trim()
+    .replace(/\s+/g, "-")
+}
+
+// Handle file upload
+const handleFile = (e) => {
+  const file = e.target.files[0]
+  if (file && file.size > 10 * 1024 * 1024) {
+    alert("Ukuran gambar maksimal 10MB!")
+    e.target.value = ""
+    return
+  }
+  form.value.cover = file
+}
+
+// Kirim data ke backend
+const submitForm = async () => {
+  try {
+    const formData = new FormData()
+    for (const key in form.value) {
+      formData.append(key, form.value[key])
+    }
+
+    await axios.post(API_URL, formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    })
+
+    alert("Artikel berhasil ditambahkan!")
+    router.push("/article/artikel")
+  } catch (error) {
+    console.error(error)
+  }
+}
+</script>
+
+<template>
+  <div class="create-container">
+    <h3><i class="fas fa-plus-circle mr-2"></i> Tambah Artikel</h3>
+
+    <form @submit.prevent="submitForm" class="form-box">
+      <div class="form-group">
+        <label>Judul Artikel</label>
+        <input
+          v-model="form.judul"
+          type="text"
+          placeholder="Masukkan judul"
+          @input="generateSlug"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label>Slug</label>
+        <input
+          v-model="form.slug"
+          type="text"
+          placeholder="slug-otomatis-dari-judul"
+          readonly
+        />
+      </div>
+
+      <div class="form-group">
+        <label>Isi Artikel</label>
+        <textarea
+          v-model="form.isi"
+          rows="6"
+          placeholder="Tulis isi artikel..."
+          required
+        ></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Cover (max 10MB)</label>
+        <input type="file" accept="image/*" @change="handleFile" />
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-dark">Simpan</button>
+        <button type="button" @click="router.push('/article/artikel')" class="btn btn-secondary">
+          Batal
+        </button>
+      </div>
+    </form>
+  </div>
+</template>
+
+<style scoped>
+.create-container {
+  background: #fff;
+  padding: 25px;
+  border-radius: 10px;
+  min-height: 100vh;
+}
+
+h3 {
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.form-box {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-bottom: 5px;
+  font-weight: 600;
+}
+
+input,
+textarea {
+  border: 1px solid #ccc;
+  padding: 8px 10px;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+textarea {
+  resize: vertical;
+}
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.btn {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.btn-dark {
+  background: #000;
+  color: #fff;
+}
+.btn-dark:hover {
+  background: #333;
+}
+
+.btn-secondary {
+  background: #ccc;
+  color: #000;
+}
+.btn-secondary:hover {
+  background: #b5b5b5;
+}
+</style>

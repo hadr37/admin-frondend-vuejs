@@ -55,6 +55,29 @@ const routes = [
         component: () => import('@/views/users/EditUser.vue'),
         props: true,
       },
+      {
+  path: "/article/artikel",
+  name: "ArticleList",
+  component: () => import("../views/article/ArticleList.vue"),
+},
+{
+  path: "/article/artikel/tambah",
+  name: "ArticleCreate",
+  component: () => import("../views/article/ArticleCreate.vue"),
+},
+{
+  path: "/article/artikel/edit/:slug",
+  name: "EditArticle",
+  component: () => import("../views/article/EditArticle.vue"),
+  props: true,
+},
+{
+  path: '/article/artikel/:slug',
+  name: 'article.detail',
+  component: () => import('../views/article/ArticleDetail.vue'),
+}
+
+
     ],
   },
 

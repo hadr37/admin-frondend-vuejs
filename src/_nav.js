@@ -31,5 +31,11 @@ export default [
     to: '/Users/list',
     icon: 'cil-user',
   },
+  {
+    component: 'CNavItem',
+    name: 'Article',
+    to: '/article/artikel',
+    icon: 'cil-notes',
+  },
  
 ]
