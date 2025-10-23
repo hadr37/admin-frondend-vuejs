@@ -11,18 +11,33 @@
       <form @submit.prevent="updateBarang" class="space-y-4">
         <div>
           <label class="block text-sm font-medium text-gray-700">Kode Barang / Barcode</label>
-          <input v-model="kode_barang" type="text" placeholder="Opsional, contoh: A0001, 883384990"
-            class="form-control" />
+          <input
+            v-model="kode_barang"
+            type="text"
+            placeholder="Opsional, contoh: A0001, 883384990"
+            class="form-control"
+          />
         </div>
 
         <div>
           <label class="block text-sm font-medium text-gray-700">Nama Barang</label>
-          <input v-model="nama_barang" type="text" placeholder="Masukkan nama barang" class="form-control" required />
+          <input
+            v-model="nama_barang"
+            type="text"
+            placeholder="Masukkan nama barang"
+            class="form-control"
+            required
+          />
         </div>
 
         <div>
-          <label class="block text-sm font-medium text-gray-700">Deskripsi</label>
-          <textarea v-model="deskripsi" rows="3" placeholder="Masukkan deskripsi" class="form-control"></textarea>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Deskripsi Produk</label>
+          <QuillEditor
+            theme="snow"
+            v-model:content="deskripsi"
+            contentType="html"
+            style="height: 200px; background: white; border-radius: 6px;"
+          />
         </div>
 
         <div>
@@ -78,6 +93,8 @@
 import { ref, onMounted } from "vue"
 import axios from "axios"
 import { useRouter, useRoute } from "vue-router"
+import { QuillEditor } from "@vueup/vue-quill"
+import "@vueup/vue-quill/dist/vue-quill.snow.css"
 
 const router = useRouter()
 const route = useRoute()
@@ -113,7 +130,7 @@ const getBarang = async () => {
     kode_barang.value = data.kode_barang
     nama_barang.value = data.nama_barang
     kategori_id.value = data.kategori_id
-    deskripsi.value = data.deskripsi
+    deskripsi.value = data.deskripsi // isi ke Quill
     stok.value = data.stok
     harga.value = data.harga
     gambarUrl.value = data.gambar ? `http://localhost:8000/storage/${data.gambar}` : ""

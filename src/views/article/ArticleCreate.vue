@@ -1,7 +1,69 @@
+<template>
+  <div class="create-container">
+    <h3><i class="fas fa-plus-circle mr-2"></i> Tambah Artikel</h3>
+
+    <form @submit.prevent="submitForm" class="form-box">
+     
+      <div class="form-group">
+        <label>Judul Artikel</label>
+        <input
+          v-model="form.judul"
+          type="text"
+          placeholder="Masukkan judul artikel"
+          @input="generateSlug"
+          required
+        />
+      </div>
+
+     
+      <div class="form-group">
+        <label>Slug</label>
+        <input
+          v-model="form.slug"
+          type="text"
+          placeholder="slug-otomatis-dari-judul"
+          readonly
+        />
+      </div>
+
+      <!-- Isi Artikel -->
+      <div class="form-group">
+        <label>Isi Artikel</label>
+        <QuillEditor
+          v-model:content="form.isi"
+          content-type="html"
+          theme="snow"
+          class="quill-editor"
+        />
+      </div>
+
+      <!-- Cover -->
+      <div class="form-group">
+        <label>Cover (max 10MB)</label>
+        <input type="file" accept="image/*" @change="handleFile" />
+      </div>
+
+      <!-- Tombol -->
+      <div class="form-actions">
+        <button type="submit" class="btn btn-dark">Simpan</button>
+        <button
+          type="button"
+          @click="router.push('/article/artikel')"
+          class="btn btn-secondary"
+        >
+          Batal
+        </button>
+      </div>
+    </form>
+  </div>
+</template>
+
 <script setup>
 import { ref } from "vue"
-import axios from "axios"
 import { useRouter } from "vue-router"
+import axios from "axios"
+import { QuillEditor } from "@vueup/vue-quill"
+import "@vueup/vue-quill/dist/vue-quill.snow.css"
 
 const router = useRouter()
 
@@ -50,78 +112,35 @@ const submitForm = async () => {
     router.push("/article/artikel")
   } catch (error) {
     console.error(error)
+    alert("Gagal menyimpan artikel!")
   }
 }
 </script>
 
-<template>
-  <div class="create-container">
-    <h3><i class="fas fa-plus-circle mr-2"></i> Tambah Artikel</h3>
-
-    <form @submit.prevent="submitForm" class="form-box">
-      <div class="form-group">
-        <label>Judul Artikel</label>
-        <input
-          v-model="form.judul"
-          type="text"
-          placeholder="Masukkan judul"
-          @input="generateSlug"
-          required
-        />
-      </div>
-
-      <div class="form-group">
-        <label>Slug</label>
-        <input
-          v-model="form.slug"
-          type="text"
-          placeholder="slug-otomatis-dari-judul"
-          readonly
-        />
-      </div>
-
-      <div class="form-group">
-        <label>Isi Artikel</label>
-        <textarea
-          v-model="form.isi"
-          rows="6"
-          placeholder="Tulis isi artikel..."
-          required
-        ></textarea>
-      </div>
-
-      <div class="form-group">
-        <label>Cover (max 10MB)</label>
-        <input type="file" accept="image/*" @change="handleFile" />
-      </div>
-
-      <div class="form-actions">
-        <button type="submit" class="btn btn-dark">Simpan</button>
-        <button type="button" @click="router.push('/article/artikel')" class="btn btn-secondary">
-          Batal
-        </button>
-      </div>
-    </form>
-  </div>
-</template>
-
 <style scoped>
 .create-container {
   background: #fff;
-  padding: 25px;
+  padding: 30px;
   border-radius: 10px;
   min-height: 100vh;
+  max-width: 900px;
+  margin: 0 auto;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
 }
 
 h3 {
   margin-bottom: 20px;
   font-weight: bold;
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .form-box {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 18px;
 }
 
 .form-group {
@@ -137,23 +156,31 @@ label {
 input,
 textarea {
   border: 1px solid #ccc;
-  padding: 8px 10px;
-  border-radius: 5px;
+  padding: 10px 12px;
+  border-radius: 6px;
   font-size: 14px;
 }
 
-textarea {
-  resize: vertical;
+input:focus,
+textarea:focus {
+  border-color: #4c6ef5;
+  outline: none;
+}
+
+.quill-editor {
+  background: #fff;
+  border-radius: 8px;
+  height: 300px;
 }
 
 .form-actions {
   display: flex;
-  gap: 10px;
-  margin-top: 10px;
+  gap: 12px;
+  margin-top: 15px;
 }
 
 .btn {
-  padding: 8px 14px;
+  padding: 10px 16px;
   border: none;
   border-radius: 6px;
   cursor: pointer;

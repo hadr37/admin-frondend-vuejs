@@ -109,20 +109,22 @@ onMounted(() => {
           </tr>
         </thead>
         <tbody>
-          <tr
-            v-for="b in filteredBarang"
-            :key="b.id"
-          >
+          <tr v-for="b in filteredBarang" :key="b.id">
             <td>{{ b.kode_barang }}</td>
             <td>{{ b.nama_barang }}</td>
             <td>{{ b.kategori?.name }}</td>
-            <td>{{ b.deskripsi }}</td>
+
+            <!-- 🔥 Deskripsi pakai v-html agar format Quill tampil -->
+            <td>
+              <div class="quill-content" v-html="b.deskripsi"></div>
+            </td>
+
             <td>Rp {{ b.harga }}</td>
             <td>{{ b.stok }}</td>
             <td>
               <img
                 v-if="b.gambar"
-                :src="`http://localhost:8000/storage/${b.gambar }`"
+                :src="`http://localhost:8000/storage/${b.gambar}`"
                 class="gambar"
               />
             </td>
@@ -257,7 +259,7 @@ th, td {
   padding: 10px;
   text-align: left;
   border-bottom: 1px solid #ddd;
-  vertical-align: middle;
+  vertical-align: top;
 }
 
 .text-center {
@@ -275,11 +277,47 @@ th, td {
   border: 1px solid #ddd;
 }
 
-.truncate-2 {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+/* === Tampilan isi Quill === */
+.quill-content {
+  max-height: 120px;
+  overflow-y: auto;
+  color: #444;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.quill-content strong {
+  font-weight: bold;
+}
+
+.quill-content em {
+  font-style: italic;
+}
+
+.quill-content u {
+  text-decoration: underline;
+}
+
+.quill-content ol,
+.quill-content ul {
+  margin: 6px 0 6px 20px;
+}
+
+.quill-content a {
+  color: #007bff;
+  text-decoration: underline;
+}
+
+.quill-content a:hover {
+  color: #0056b3;
+}
+
+/* Batasi tinggi agar tabel tetap rapi */
+.quill-content::-webkit-scrollbar {
+  width: 4px;
+}
+.quill-content::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 10px;
 }
 </style>

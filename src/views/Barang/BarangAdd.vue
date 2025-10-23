@@ -1,8 +1,9 @@
-
 <script setup>
 import { ref, onMounted } from "vue"
 import axios from "axios"
 import { useRouter } from "vue-router"
+import { QuillEditor } from "@vueup/vue-quill"
+import "@vueup/vue-quill/dist/vue-quill.snow.css"
 
 const router = useRouter()
 
@@ -14,7 +15,7 @@ const CAT_URL = "http://localhost:8000/api/categories"
 const kode_barang = ref("")
 const nama_barang = ref("")
 const kategori_id = ref("")
-const deskripsi = ref("")
+const deskripsi = ref("") // akan diisi oleh Quill
 const stok = ref(0)
 const harga = ref(0)
 const gambar = ref(null)
@@ -44,8 +45,8 @@ const addBarang = async () => {
     const formData = new FormData()
     formData.append("kode_barang", kode_barang.value)
     formData.append("nama_barang", nama_barang.value)
-    formData.append("kategori_id", parseInt(kategori_id.value)) 
-    formData.append("deskripsi", deskripsi.value)
+    formData.append("kategori_id", parseInt(kategori_id.value))
+    formData.append("deskripsi", deskripsi.value) // dari Quill
     formData.append("stok", parseInt(stok.value))
     formData.append("harga", parseInt(harga.value))
 
@@ -58,7 +59,7 @@ const addBarang = async () => {
     })
 
     alert("✅ Barang berhasil ditambahkan!")
-    router.push("/Barang/barang") 
+    router.push("/Barang/barang")
   } catch (error) {
     if (error.response) {
       console.error("⚠️ Laravel validation errors:", error.response.data.errors)
@@ -91,18 +92,33 @@ onMounted(() => {
       <form @submit.prevent="addBarang" class="space-y-4">
         <div>
           <label class="block text-sm font-medium text-gray-700">Kode Barang / Barcode</label>
-          <input v-model="kode_barang" type="text" placeholder="Opsional, contoh: A0001, 883384990"
-            class="form-control" />
+          <input
+            v-model="kode_barang"
+            type="text"
+            placeholder="Opsional, contoh: A0001, 883384990"
+            class="form-control"
+          />
         </div>
 
         <div>
           <label class="block text-sm font-medium text-gray-700">Nama Barang</label>
-          <input v-model="nama_barang" type="text" placeholder="Masukkan nama barang" class="form-control" required />
+          <input
+            v-model="nama_barang"
+            type="text"
+            placeholder="Masukkan nama barang"
+            class="form-control"
+            required
+          />
         </div>
 
         <div>
-          <label class="block text-sm font-medium text-gray-700">Deskripsi</label>
-          <textarea v-model="deskripsi" rows="3" placeholder="Masukkan deskripsi" class="form-control"></textarea>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Deskripsi Produk</label>
+          <QuillEditor
+            theme="snow"
+            v-model:content="deskripsi"
+            contentType="html"
+            style="height: 200px; background: white; border-radius: 6px;"
+          />
         </div>
 
         <div>
@@ -152,7 +168,7 @@ onMounted(() => {
 <style scoped>
 .form-control {
   width: 100%;
-  border: 1px solid #d1d5db; 
+  border: 1px solid #d1d5db;
   border-radius: 0.375rem;
   padding: 0.5rem 0.75rem;
   font-size: 0.875rem;
