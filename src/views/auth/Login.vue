@@ -1,7 +1,7 @@
 <template>
     <div class="login-page">
       <div class="login-box">
-        <h2>Login Admin</h2>
+        <h2>Login Panel Admin</h2>
   
         <form @submit.prevent="login">
           <div class="form-group">
@@ -82,9 +82,7 @@
   }
   </script>
   
-  <style scoped>
-  /* Background hijau lembut */
-  .login-page {
+  <style scoped>  .login-page {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -92,7 +90,7 @@
     background: linear-gradient(135deg, #a8e063, #56ab2f);
   }
   
-  /* Box login */
+
   .login-box {
     background: #fff;
     padding: 40px 50px;
@@ -108,9 +106,7 @@
     color: #2e7d32;
     font-weight: 700;
   }
-  
-  /* Form styling */
-  .form-group {
+    .form-group {
     margin-bottom: 20px;
     text-align: left;
   }
@@ -136,9 +132,7 @@
     border-color: #43a047;
     box-shadow: 0 0 5px rgba(67, 160, 71, 0.4);
   }
-  
-  /* Password field with toggle */
-  .password-wrapper {
+    .password-wrapper {
     display: flex;
     align-items: center;
     position: relative;
@@ -154,7 +148,7 @@
     color: #43a047;
   }
   
-  /* Tombol login */
+
   .btn-login {
     width: 100%;
     padding: 12px;

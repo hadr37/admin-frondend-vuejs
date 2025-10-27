@@ -33,5 +33,11 @@ export default [
     to: '/article/artikel',
     icon: 'cil-notes',
   },
+  {
+    component: 'CNavItem',
+    name: 'Pesan',
+    to: '/pesan/list',
+    icon: 'cil-envelope-closed',
+  },
  
 ]

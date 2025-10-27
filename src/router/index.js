@@ -77,6 +77,13 @@ const routes = [
         name: 'ArticleDetail',
         component: () => import('@/views/article/ArticleDetail.vue'),
       },
+
+      // 📬 Tambahan baru → daftar pesan customer
+      {
+        path: '/pesan/list',
+        name: 'PesanList',
+        component: () => import('@/views/pesan/pesanlist.vue'),
+      },
     ],
   },
 
@@ -85,7 +92,6 @@ const routes = [
     name: 'KategoriEdit',
     component: () => import('@/views/Kategori/KategoriEdit.vue'),
   },
-
 
   {
     path: '/login',
