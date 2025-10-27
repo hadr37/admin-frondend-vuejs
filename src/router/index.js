@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import DefaultLayout from '@/layouts/DefaultLayout'
 
+// 📌 Semua route aplikasi
 const routes = [
   {
     path: '/',
@@ -56,28 +57,26 @@ const routes = [
         props: true,
       },
       {
-  path: "/article/artikel",
-  name: "ArticleList",
-  component: () => import("../views/article/ArticleList.vue"),
-},
-{
-  path: "/article/artikel/tambah",
-  name: "ArticleCreate",
-  component: () => import("../views/article/ArticleCreate.vue"),
-},
-{
-  path: "/article/artikel/edit/:slug",
-  name: "EditArticle",
-  component: () => import("../views/article/EditArticle.vue"),
-  props: true,
-},
-{
-  path: '/article/artikel/:slug',
-  name: 'article.detail',
-  component: () => import('../views/article/ArticleDetail.vue'),
-}
-
-
+        path: '/article/artikel',
+        name: 'ArticleList',
+        component: () => import('@/views/article/ArticleList.vue'),
+      },
+      {
+        path: '/article/artikel/tambah',
+        name: 'ArticleCreate',
+        component: () => import('@/views/article/ArticleCreate.vue'),
+      },
+      {
+        path: '/article/artikel/edit/:slug',
+        name: 'EditArticle',
+        component: () => import('@/views/article/EditArticle.vue'),
+        props: true,
+      },
+      {
+        path: '/article/artikel/:slug',
+        name: 'ArticleDetail',
+        component: () => import('@/views/article/ArticleDetail.vue'),
+      },
     ],
   },
 
@@ -86,14 +85,48 @@ const routes = [
     name: 'KategoriEdit',
     component: () => import('@/views/Kategori/KategoriEdit.vue'),
   },
+
+
+  {
+    path: '/login',
+    name: 'Login',
+    component: () => import('@/views/auth/Login.vue'),
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound',
+    component: () => import('@/views/NotFound.vue'),
+  },
 ]
 
+// 📌 Buat router
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
   routes,
   scrollBehavior() {
     return { top: 0 }
   },
+})
+
+// 🔒 Middleware Auth Guard
+router.beforeEach((to, from, next) => {
+  const token = localStorage.getItem('token')
+  const userRole = localStorage.getItem('role')
+
+  // Jika belum login dan bukan ke /login → redirect ke login
+  if (!token && to.path !== '/login') {
+    next('/login')
+    return
+  }
+
+  // Jika bukan admin dan mau akses dashboard → tolak
+  if (to.path.startsWith('/dashboard') && userRole !== 'admin') {
+    alert('Akses ditolak. Anda bukan admin.')
+    next('/login')
+    return
+  }
+
+  next()
 })
 
 export default router
