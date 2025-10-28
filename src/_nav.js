@@ -39,5 +39,11 @@ export default [
     to: '/pesan/list',
     icon: 'cil-envelope-closed',
   },
+  {
+    component: 'CNavItem',
+    name: 'Penawaran',
+    to: '/penawaran/list',
+    icon: 'cil-envelope-open',
+  },
  
 ]

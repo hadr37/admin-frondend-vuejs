@@ -8,7 +8,7 @@ const API_URL = "http://127.0.0.1:8000/api/pesan";
 const showModal = ref(false);
 const selectedPesan = ref(null);
 
-// Ambil data pesan dari API
+
 const getPesan = async () => {
   try {
     const res = await axios.get(API_URL);
@@ -18,7 +18,7 @@ const getPesan = async () => {
   }
 };
 
-// Hapus pesan
+
 const deletePesan = async (id) => {
   if (confirm("Yakin ingin menghapus pesan ini?")) {
     try {
@@ -30,13 +30,13 @@ const deletePesan = async (id) => {
   }
 };
 
-// Tampilkan modal untuk melihat pesan lengkap
+
 const lihatPesan = (item) => {
   selectedPesan.value = item;
   showModal.value = true;
 };
 
-// Format tanggal
+
 const formatDate = (date) =>
   new Date(date).toLocaleString("id-ID", {
     day: "2-digit",

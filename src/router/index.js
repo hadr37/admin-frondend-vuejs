@@ -1,7 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import DefaultLayout from '@/layouts/DefaultLayout'
 
-// 📌 Semua route aplikasi
 const routes = [
   {
     path: '/',
@@ -41,6 +40,11 @@ const routes = [
         component: () => import('@/views/Kategori/KategoriAdd.vue'),
       },
       {
+        path: '/Kategori/KategoriEdit/:id',
+        name: 'KategoriEdit',
+        component: () => import('@/views/Kategori/KategoriEdit.vue'),
+      },
+      {
         path: '/Users/list',
         name: 'UserList',
         component: () => import('@/views/users/ListUser.vue'),
@@ -77,22 +81,18 @@ const routes = [
         name: 'ArticleDetail',
         component: () => import('@/views/article/ArticleDetail.vue'),
       },
-
-      // 📬 Tambahan baru → daftar pesan customer
       {
         path: '/pesan/list',
         name: 'PesanList',
         component: () => import('@/views/pesan/pesanlist.vue'),
       },
+      {
+        path: '/penawaran/list',
+        name: 'PenawaranList',
+        component: () => import('@/views/penawaran/PenawaranList.vue'),
+      },
     ],
   },
-
-  {
-    path: '/Kategori/KategoriEdit/:id',
-    name: 'KategoriEdit',
-    component: () => import('@/views/Kategori/KategoriEdit.vue'),
-  },
-
   {
     path: '/login',
     name: 'Login',

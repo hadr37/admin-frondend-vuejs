@@ -113,8 +113,6 @@ onMounted(() => {
             <td>{{ b.kode_barang }}</td>
             <td>{{ b.nama_barang }}</td>
             <td>{{ b.kategori?.name }}</td>
-
-            <!-- 🔥 Deskripsi pakai v-html agar format Quill tampil -->
             <td>
               <div class="quill-content" v-html="b.deskripsi"></div>
             </td>
