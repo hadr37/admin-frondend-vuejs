@@ -4,7 +4,7 @@
       <h3><i class="fas fa-tags me-2"></i> Daftar Penawaran Produk</h3>
     </div>
 
-    <!-- Tabel -->
+
     <div class="table-responsive">
       <table class="table table-bordered align-middle">
         <thead class="table-light">
@@ -49,7 +49,7 @@
       </table>
     </div>
 
-    <!-- Modal Detail -->
+
     <div v-if="showModal" class="modal-overlay" @click.self="closeModal">
       <div class="modal-box">
         <h5 class="mb-3"><i class="fas fa-eye me-2"></i> Menunggu Detail Produk</h5>
@@ -90,7 +90,6 @@ const getPenawaran = async () => {
   }
 };
 
-// Format tanggal
 const formatDate = (date) =>
   new Date(date).toLocaleString("id-ID", {
     day: "2-digit",
@@ -100,18 +99,17 @@ const formatDate = (date) =>
     minute: "2-digit",
   });
 
-// Lihat detail pesan
+
 const lihatDetail = (item) => {
   selectedItem.value = item;
   showModal.value = true;
 };
 
-// Tutup modal
+
 const closeModal = () => {
   showModal.value = false;
 };
 
-// Hapus penawaran
 const hapusPenawaran = async (id) => {
   if (!confirm("Yakin ingin menghapus penawaran ini?")) return;
   try {
@@ -133,7 +131,6 @@ onMounted(() => getPenawaran());
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
-/* Table */
 .table th {
   background-color: #f8f9fa;
   font-weight: 600;
@@ -145,7 +142,7 @@ onMounted(() => getPenawaran());
   vertical-align: middle;
 }
 
-/* Potong teks pesan */
+
 .pesan-text {
   max-width: 250px;
   white-space: nowrap;
@@ -153,7 +150,7 @@ onMounted(() => getPenawaran());
   text-overflow: ellipsis;
 }
 
-/* === Modal === */
+
 .modal-overlay {
   position: fixed;
   top: 0;

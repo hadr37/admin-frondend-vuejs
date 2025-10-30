@@ -9,7 +9,6 @@ const searchQuery = ref("")
 
 const API_URL = "http://localhost:8000/api/artikel"
 
-// Ambil data artikel
 const getArticles = async () => {
   try {
     const res = await axios.get(API_URL)
@@ -19,7 +18,7 @@ const getArticles = async () => {
   }
 }
 
-// Hapus artikel berdasarkan slug
+
 const deleteArticle = async (slug) => {
   if (!confirm("Yakin ingin menghapus artikel ini?")) return
   try {
@@ -32,7 +31,6 @@ const deleteArticle = async (slug) => {
   }
 }
 
-// Filter artikel
 const filteredArticles = computed(() => {
   return articles.value.filter((a) =>
     a.judul.toLowerCase().includes(searchQuery.value.toLowerCase())
@@ -82,7 +80,7 @@ onMounted(() => getArticles())
             <td>{{ a.created_at ? new Date(a.created_at).toLocaleDateString() : '-' }}</td>
             <td class="text-center">
               <div class="btn-group">
-                <!-- Lihat detail -->
+     
                 <button
                   class="btn btn-view"
                   title="Lihat Artikel"
@@ -91,7 +89,6 @@ onMounted(() => getArticles())
                   <i class="fas fa-eye"></i>
                 </button>
 
-                <!-- Edit -->
                 <button
                   class="btn btn-edit"
                   title="Edit Artikel"
@@ -100,7 +97,6 @@ onMounted(() => getArticles())
                   <i class="fas fa-edit"></i>
                 </button>
 
-                <!-- Hapus -->
                 <button
                   class="btn btn-delete"
                   title="Hapus Artikel"
@@ -129,7 +125,6 @@ onMounted(() => getArticles())
   min-height: 100vh;
 }
 
-/* ===== Header ===== */
 .header-section {
   display: flex;
   justify-content: space-between;
@@ -143,7 +138,6 @@ onMounted(() => getArticles())
   color: #333;
 }
 
-/* ===== Actions ===== */
 .actions {
   display: flex;
   align-items: center;
@@ -165,7 +159,7 @@ onMounted(() => getArticles())
   background: #333;
 }
 
-/* ===== Search ===== */
+
 .search-box {
   display: flex;
   align-items: center;
@@ -187,7 +181,6 @@ onMounted(() => getArticles())
   color: #666;
 }
 
-/* ===== Table ===== */
 .table-container {
   overflow-x: auto;
 }
@@ -218,7 +211,6 @@ td {
   border: 1px solid #ddd;
 }
 
-/* ===== Button Group ===== */
 .btn-group {
   display: flex;
   justify-content: center;

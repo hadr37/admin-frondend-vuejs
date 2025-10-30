@@ -68,7 +68,6 @@ const loading = ref(false);
 
 const API_URL = "http://localhost:8000/api/artikel";
 
-// Ambil data artikel berdasarkan slug
 const getArticle = async () => {
   try {
     loading.value = true;
@@ -90,7 +89,6 @@ const getArticle = async () => {
   }
 };
 
-// Otomatis update slug dari judul
 const generateSlug = () => {
   form.value.slug = form.value.judul
     .toLowerCase()
@@ -99,7 +97,6 @@ const generateSlug = () => {
     .replace(/\s+/g, "-");
 };
 
-// Upload file baru
 const handleFile = (e) => {
   const file = e.target.files[0];
   if (file && file.size > 10 * 1024 * 1024) {
@@ -111,7 +108,6 @@ const handleFile = (e) => {
   preview.value = URL.createObjectURL(file);
 };
 
-// Update artikel
 const updateArticle = async () => {
   try {
     loading.value = true;

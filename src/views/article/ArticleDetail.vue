@@ -115,7 +115,6 @@ onMounted(() => getArtikel());
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* === Isi Artikel === */
 .content {
   line-height: 1.8;
   font-size: 1rem;
@@ -187,7 +186,7 @@ onMounted(() => getArtikel());
   }
 }
 
-/* === Loading === */
+
 .loading {
   text-align: center;
   padding: 60px;

@@ -12,7 +12,6 @@ const router = useRouter()
 const API_URL = "http://localhost:8000/api/barang"
 const CAT_URL = "http://localhost:8000/api/categories"
 
-// Ambil data barang
 const getBarang = async () => {
   try {
     const res = await axios.get(API_URL)
@@ -22,7 +21,7 @@ const getBarang = async () => {
   }
 }
 
-// Ambil kategori
+
 const getCategories = async () => {
   try {
     const res = await axios.get(CAT_URL)
@@ -32,7 +31,7 @@ const getCategories = async () => {
   }
 }
 
-// Hapus barang
+
 const deleteBarang = async (id) => {
   if (!confirm("Yakin hapus barang ini?")) return
   try {
@@ -43,7 +42,7 @@ const deleteBarang = async (id) => {
   }
 }
 
-// Filter barang berdasarkan pencarian & kategori
+
 const filteredBarang = computed(() => {
   return barang.value.filter((b) => {
     const matchName = b.nama_barang
@@ -64,7 +63,7 @@ onMounted(() => {
 
 <template>
   <div class="main-content">
-    <!-- Header -->
+
     <div class="header-section">
       <h3><i class="fas fa-box mr-2"></i> Daftar Barang</h3>
 
@@ -93,7 +92,7 @@ onMounted(() => {
       </div>
     </div>
 
-    <!-- Tabel Barang -->
+
     <div class="table-container">
       <table>
         <thead>
@@ -275,7 +274,7 @@ th, td {
   border: 1px solid #ddd;
 }
 
-/* === Tampilan isi Quill === */
+
 .quill-content {
   max-height: 120px;
   overflow-y: auto;
@@ -310,7 +309,6 @@ th, td {
   color: #0056b3;
 }
 
-/* Batasi tinggi agar tabel tetap rapi */
 .quill-content::-webkit-scrollbar {
   width: 4px;
 }

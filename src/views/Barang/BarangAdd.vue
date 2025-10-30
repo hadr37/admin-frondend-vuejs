@@ -15,7 +15,7 @@ const CAT_URL = "http://localhost:8000/api/categories"
 const kode_barang = ref("")
 const nama_barang = ref("")
 const kategori_id = ref("")
-const deskripsi = ref("") // akan diisi oleh Quill
+const deskripsi = ref("")
 const stok = ref(0)
 const harga = ref(0)
 const gambar = ref(null)
@@ -32,21 +32,19 @@ const getCategories = async () => {
   }
 }
 
-// Upload file handler
 const handleFileUpload = (e) => {
   if (e.target.files && e.target.files[0]) {
     gambar.value = e.target.files[0]
   }
 }
 
-// Simpan barang ke backend
 const addBarang = async () => {
   try {
     const formData = new FormData()
     formData.append("kode_barang", kode_barang.value)
     formData.append("nama_barang", nama_barang.value)
     formData.append("kategori_id", parseInt(kategori_id.value))
-    formData.append("deskripsi", deskripsi.value) // dari Quill
+    formData.append("deskripsi", deskripsi.value)
     formData.append("stok", parseInt(stok.value))
     formData.append("harga", parseInt(harga.value))
 
@@ -73,7 +71,6 @@ const addBarang = async () => {
   }
 }
 
-// Load kategori saat halaman dibuka
 onMounted(() => {
   getCategories()
 })
@@ -82,13 +79,12 @@ onMounted(() => {
 <template>
   <div class="flex">
     <main class="p-6 w-full">
-      <!-- Header -->
+
       <div class="mb-6">
         <h3 class="text-lg font-semibold text-gray-800">Tambah Produk</h3>
         <p class="text-sm text-gray-500">Isi form untuk menambahkan produk baru</p>
       </div>
 
-      <!-- Form -->
       <form @submit.prevent="addBarang" class="space-y-4">
         <div>
           <label class="block text-sm font-medium text-gray-700">Kode Barang / Barcode</label>
@@ -144,7 +140,6 @@ onMounted(() => {
           <input type="file" @change="handleFileUpload" class="form-control" />
         </div>
 
-        <!-- Tombol -->
         <div class="flex gap-2 pt-4">
           <button
             type="button"

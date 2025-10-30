@@ -37,13 +37,11 @@
         />
       </div>
 
-      <!-- Cover -->
       <div class="form-group">
         <label>Cover (max 10MB)</label>
         <input type="file" accept="image/*" @change="handleFile" />
       </div>
 
-      <!-- Tombol -->
       <div class="form-actions">
         <button type="submit" class="btn btn-dark">Simpan</button>
         <button
@@ -76,7 +74,7 @@ const form = ref({
 
 const API_URL = "http://localhost:8000/api/artikel"
 
-// Otomatis buat slug dari judul
+
 const generateSlug = () => {
   form.value.slug = form.value.judul
     .toLowerCase()
@@ -85,7 +83,7 @@ const generateSlug = () => {
     .replace(/\s+/g, "-")
 }
 
-// Handle file upload
+
 const handleFile = (e) => {
   const file = e.target.files[0]
   if (file && file.size > 10 * 1024 * 1024) {
@@ -96,7 +94,6 @@ const handleFile = (e) => {
   form.value.cover = file
 }
 
-// Kirim data ke backend
 const submitForm = async () => {
   try {
     const formData = new FormData()

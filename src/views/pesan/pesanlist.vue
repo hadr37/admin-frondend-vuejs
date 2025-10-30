@@ -80,9 +80,7 @@ onMounted(() => getPesan());
             </td>
 
             <td>{{ formatDate(item.created_at) }}</td>
-            <td class="text-center">
-              <!-- Tombol lihat pesan -->
-              <button
+            <td class="text-center">              <button
                 class="btn btn-info btn-sm me-2"
                 @click="lihatPesan(item)"
                 title="Lihat Pesan"
@@ -90,7 +88,6 @@ onMounted(() => getPesan());
                 <i class="fas fa-eye"></i>
               </button>
 
-              <!-- Tombol hapus -->
               <button
                 @click="deletePesan(item.id)"
                 class="btn btn-danger btn-sm"
@@ -110,7 +107,6 @@ onMounted(() => getPesan());
       </table>
     </div>
 
-    <!-- Modal Lihat Pesan -->
     <div v-if="showModal" class="modal-overlay">
       <div class="modal-content">
         <h5><i class="fas fa-eye me-2"></i>Detail Pesan</h5>
@@ -140,7 +136,7 @@ onMounted(() => getPesan());
   border-radius: 8px;
 }
 
-/* Table */
+
 .table {
   width: 100%;
   border-collapse: collapse;
@@ -157,7 +153,6 @@ onMounted(() => getPesan());
   vertical-align: middle;
 }
 
-/* Potong teks pesan */
 .pesan-text {
   max-width: 250px;
   white-space: nowrap;
@@ -165,7 +160,7 @@ onMounted(() => getPesan());
   text-overflow: ellipsis;
 }
 
-/* Modal */
+
 .modal-overlay {
   position: fixed;
   top: 0;

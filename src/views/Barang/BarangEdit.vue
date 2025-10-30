@@ -101,7 +101,7 @@ const route = useRoute()
 const API_URL = "http://localhost:8000/api/barang"
 const CAT_URL = "http://localhost:8000/api/categories"
 
-// form state
+
 const kode_barang = ref("")
 const nama_barang = ref("")
 const kategori_id = ref("")
@@ -112,7 +112,6 @@ const gambar = ref(null)
 const gambarUrl = ref("")
 const categories = ref([])
 
-// ambil kategori
 const getCategories = async () => {
   try {
     const res = await axios.get(CAT_URL)
@@ -122,7 +121,6 @@ const getCategories = async () => {
   }
 }
 
-// ambil data barang
 const getBarang = async () => {
   try {
     const res = await axios.get(`${API_URL}/${route.params.id}`)
@@ -139,7 +137,7 @@ const getBarang = async () => {
   }
 }
 
-// upload gambar
+
 const handleFileUpload = (e) => {
   if (e.target.files && e.target.files[0]) {
     gambar.value = e.target.files[0]
@@ -147,7 +145,6 @@ const handleFileUpload = (e) => {
   }
 }
 
-// update barang
 const updateBarang = async () => {
   try {
     const formData = new FormData()

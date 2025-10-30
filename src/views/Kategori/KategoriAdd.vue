@@ -59,7 +59,7 @@ const saveCategory = async () => {
 <style scoped>
 .form-control {
   width: 100%;
-  border: 1px solid #d1d5db; /* abu-abu */
+  border: 1px solid #d1d5db; 
   border-radius: 0.375rem;
   padding: 0.5rem 0.75rem;
   font-size: 0.875rem;

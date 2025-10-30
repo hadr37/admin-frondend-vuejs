@@ -69,7 +69,6 @@ onMounted(() => getCategories())
       </div>
     </div>
 
-    <!-- Tabel -->
     <div class="table-container">
       <table>
         <thead>

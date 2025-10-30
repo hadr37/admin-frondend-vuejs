@@ -172,7 +172,6 @@
     font-weight: 600;
   }
   
-  /* Animasi lembut */
   @keyframes fadeIn {
     from {
       opacity: 0;

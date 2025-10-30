@@ -80,7 +80,6 @@ onMounted(() => getUsers());
   border-radius: 8px;
 }
 
-/* Tombol link-style di kanan atas */
 .btn-link {
   background: none;
   border: none;

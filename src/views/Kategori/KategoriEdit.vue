@@ -1,25 +1,21 @@
 <template>
   <div class="flex">
-    <!-- Sidebar -->
-    <AppSidebar />
 
-    <!-- Content Area -->
+    <AppSidebar />
     <div class="wrapper d-flex flex-column min-vh-100 w-full bg-gray-100">
-      <!-- Header -->
+
       <AppHeader />
 
-      <!-- Main Content -->
       <main class="p-6">
         <div class="main-content">
-          <!-- Header Section -->
+
           <div class="header-section">
             <h3><i class="cil-tags me-2"></i> Edit Kategori</h3>
           </div>
 
-          <!-- Form Edit -->
           <div class="form-container">
             <form @submit.prevent="updateCategory">
-              <!-- Nama Kategori -->
+
               <div class="form-group">
                 <label>Nama Kategori</label>
                 <input
@@ -30,7 +26,6 @@
                 />
               </div>
 
-              <!-- Tombol -->
               <div class="actions">
                 <button
                   type="button"
