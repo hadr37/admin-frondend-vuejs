@@ -88,7 +88,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue"
+import { ref, onMounted, nextTick } from "vue"
 import axios from "axios"
 import Chart from "chart.js/auto"
 import { useRouter } from "vue-router"
@@ -148,18 +148,22 @@ const fetchData = async () => {
     jumlahBarang.value = Object.values(kategoriMap).map((v) => v.jumlah)
     totalStok.value = Object.values(kategoriMap).map((v) => v.stok)
 
-    renderCharts()
   } catch (error) {
     console.error("Gagal memuat data dashboard:", error)
-  }
-  finally {
+  } finally {
     isLoading.value = false
+    await nextTick()
+    renderCharts()
   }
 }
 
 const renderCharts = () => {
   const ctx1 = document.getElementById("chartBarang")
   const ctx2 = document.getElementById("chartStok")
+  if (!ctx1 || !ctx2) {
+    console.log('Canvas chart tidak ditemukan')
+    return
+  }
 
   new Chart(ctx1, {
     type: "line",
