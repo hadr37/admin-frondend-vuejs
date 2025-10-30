@@ -1,46 +1,28 @@
 <template>
   <div class="flex">
-
-    <AppSidebar />
-    <div class="wrapper d-flex flex-column min-vh-100 w-full bg-gray-100">
-
-      <AppHeader />
-
-      <main class="p-6">
-        <div class="main-content">
-
-          <div class="header-section">
-            <h3><i class="cil-tags me-2"></i> Edit Kategori</h3>
-          </div>
-
-          <div class="form-container">
-            <form @submit.prevent="updateCategory">
-
-              <div class="form-group">
-                <label>Nama Kategori</label>
-                <input
-                  v-model="name"
-                  type="text"
-                  placeholder="Masukkan nama kategori"
-                  required
-                />
-              </div>
-
-              <div class="actions">
-                <button
-                  type="button"
-                  @click="router.push('/Kategori/Kategori')"
-                  class="btn btn-light"
-                >
-                  Batal
-                </button>
-                <button type="submit" class="btn btn-dark">Update</button>
-              </div>
-            </form>
-          </div>
+    <main class="p-6 w-full">
+      <!-- Header -->
+      <div class="mb-6">
+        <h3 class="text-lg font-semibold text-gray-800">Edit Kategori</h3>
+        <p class="text-sm text-gray-500">Perbarui informasi kategori sesuai kebutuhan</p>
+      </div>
+      <!-- Form -->
+      <form @submit.prevent="updateCategory" class="space-y-4 max-w-md mx-auto pb-6">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Nama Kategori</label>
+          <input v-model="name" type="text" placeholder="Masukkan nama kategori" required class="form-control" />
         </div>
-      </main>
-    </div>
+        <!-- Tombol -->
+        <div class="flex gap-2 pt-4 justify-end">
+          <button type="button" @click="router.push('/Kategori/Kategori')" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded text-sm">
+            Batal
+          </button>
+          <button type="submit" class="bg-black hover:bg-gray-900 text-white px-4 py-2 rounded text-sm">
+            Update
+          </button>
+        </div>
+      </form>
+    </main>
   </div>
 </template>
 
@@ -48,8 +30,6 @@
 import { ref, onMounted } from "vue"
 import { useRoute, useRouter } from "vue-router"
 import axios from "axios"
-import AppHeader from "@/components/AppHeader.vue"
-import AppSidebar from "@/components/AppSidebar.vue"
 
 const route = useRoute()
 const router = useRouter()
@@ -81,95 +61,16 @@ onMounted(() => getCategory())
 </script>
 
 <style scoped>
-.main-content {
-  background: #fff;
-  border-radius: 10px;
-  padding: 20px;
-  min-height: 80vh;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
-
-.header-section {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 25px;
-}
-
-.header-section h3 {
-  font-size: 20px;
-  font-weight: bold;
-  color: #333;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.form-container {
-  background: #fff;
-  border-radius: 10px;
-  padding: 25px;
-  max-width: 450px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  margin-bottom: 20px;
-}
-
-.form-group label {
-  font-weight: 600;
-  font-size: 14px;
-  color: #333;
-}
-
-.form-group input {
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  padding: 8px 10px;
-  font-size: 14px;
+.form-control {
+  width: 100%;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
   outline: none;
-  transition: all 0.2s ease;
 }
-
-.form-group input:focus {
-  border-color: #000;
-  box-shadow: 0 0 0 1px #000;
-}
-
-.actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-}
-
-.btn {
-  padding: 8px 16px;
-  border-radius: 6px;
-  font-size: 14px;
-  cursor: pointer;
-  border: none;
-  transition: 0.2s;
-}
-
-.btn-light {
-  background-color: #f2f2f2;
-  color: #333;
-}
-
-.btn-light:hover {
-  background-color: #e0e0e0;
-}
-
-.btn-dark {
-  background-color: #000;
-  color: #fff;
-}
-
-.btn-dark:hover {
-  background-color: #333;
+.form-control:focus {
+  border-color: black;
+  box-shadow: 0 0 0 1px black;
 }
 </style>
